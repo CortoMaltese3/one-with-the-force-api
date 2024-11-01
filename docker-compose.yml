@@ -3,7 +3,7 @@ services:
     container_name: starwars-db
     image: postgres:16
     env_file:
-      - backend/.env
+      - .env
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
