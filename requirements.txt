@@ -11,3 +11,5 @@ pytest==8.3.3
 Sphinx==8.1.3
 sphinx-rtd-theme==3.0.1
 gunicorn==23.0.0
+celery==5.4.0
+redis==5.2.0
