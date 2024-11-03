@@ -9,6 +9,18 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      DEBUG: ${{ secrets.DEBUG }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_PORT: ${{ secrets.DB_PORT }}
+      ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
 
     steps:
       - uses: actions/checkout@v4
@@ -23,10 +35,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt --no-cache-dir
 
-      - name: Run pytest tests
+      - name: Run tests
         run: |
           pytest api/tests/ --disable-warnings
-        continue-on-error: false
 
   lint:
     needs: test
@@ -48,14 +59,3 @@ jobs:
       - name: Lint with pylint
         run: |
           pylint app/ --fail-under=8
-
-  artifacts:
-    needs: [test, lint]
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Upload Test and Lint Results
-        uses: actions/upload-artifact@v3 # Updated to v3 as per the deprecation notice
-        with:
-          name: test-and-lint-results
-          path: ./results/
