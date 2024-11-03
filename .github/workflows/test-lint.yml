@@ -25,7 +25,7 @@ jobs:
 
       - name: Run pytest tests
         run: |
-          pytest tests/ --disable-warnings
+          pytest api/tests/ --disable-warnings
         continue-on-error: false
 
   lint:
