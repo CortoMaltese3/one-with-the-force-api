@@ -36,6 +36,19 @@ class CharacterViewSetTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("Luke Skywalker", [c["name"] for c in response.json()["results"]])
 
+    def test_character_not_found(self):
+        url = reverse(
+            "character-detail", kwargs={"pk": 999}
+        )  # Assume ID 999 does not exist
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_invalid_character_data(self):
+        url = reverse("character-list")
+        invalid_data = {"name": ""}  # Name should not be empty
+        response = self.client.post(url, invalid_data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
 
 class FilmViewSetTest(APITestCase):
     @classmethod
@@ -66,6 +79,17 @@ class FilmViewSetTest(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("A New Hope", [f["title"] for f in response.json()["results"]])
+
+    def test_film_not_found(self):
+        url = reverse("film-detail", kwargs={"pk": 999})  # Assume ID 999 does not exist
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_invalid_film_data(self):
+        url = reverse("film-list")
+        invalid_data = {"title": ""}  # Title should not be empty
+        response = self.client.post(url, invalid_data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
 class StarshipViewSetTest(APITestCase):
@@ -101,3 +125,16 @@ class StarshipViewSetTest(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("Death Star", [s["name"] for s in response.json()["results"]])
+
+    def test_starship_not_found(self):
+        url = reverse(
+            "starship-detail", kwargs={"pk": 999}
+        )  # Assume ID 999 does not exist
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_invalid_starship_data(self):
+        url = reverse("starship-list")
+        invalid_data = {"name": ""}  # Name should not be empty
+        response = self.client.post(url, invalid_data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
