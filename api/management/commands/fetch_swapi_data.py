@@ -29,3 +29,29 @@ def fetch_and_save_characters():
                     "url": character_data["url"],
                 },
             )
+
+
+def fetch_and_save_films():
+    """Fetches film data from SWAPI and saves it to the Film model."""
+    response = requests.get(f"{BASE_URL}films/")
+    if response.status_code == 200:
+        data = response.json()
+        for film_data in data["results"]:
+            film, created = Film.objects.update_or_create(
+                title=film_data["title"],
+                defaults={
+                    "episode_id": film_data["episode_id"],
+                    "opening_crawl": film_data["opening_crawl"],
+                    "director": film_data["director"],
+                    "producer": film_data["producer"],
+                    "release_date": film_data["release_date"],
+                    "characters": film_data["characters"],
+                    "planets": film_data["planets"],
+                    "starships": film_data["starships"],
+                    "vehicles": film_data["vehicles"],
+                    "species": film_data["species"],
+                    "created": film_data["created"],
+                    "edited": film_data["edited"],
+                    "url": film_data["url"],
+                },
+            )
