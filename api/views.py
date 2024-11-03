@@ -15,6 +15,8 @@ Classes:
 from rest_framework import viewsets, filters
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.exceptions import APIException, ValidationError
+from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
 from .models import Character, Film, Starship
 from .serializers import CharacterSerializer, FilmSerializer, StarshipSerializer
 
@@ -52,53 +54,44 @@ class CharacterViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter]
     search_fields = ["name"]
 
-    def get_queryset(self):
-        """
-        Fetch all characters with error handling.
-
-        :raises APIException: If an error occurs while fetching characters.
-        :return: Queryset of Character objects.
-        :rtype: QuerySet
-        """
-        try:
-            return Character.objects.all()
-        except Exception as e:
-            raise APIException(f"An error occurred while fetching characters: {str(e)}")
-
-    def list(self, request, *args, **kwargs):
-        """
-        List all characters with pagination.
-
-        :raises APIException: If an error occurs while listing characters.
-        :return: Paginated list of Character objects.
-        """
-        try:
-            return super().list(request, *args, **kwargs)
-        except Exception as e:
-            raise APIException(f"An error occurred while listing characters: {str(e)}")
-
     def retrieve(self, request, *args, **kwargs):
         """
         Retrieve a single character by ID.
 
-        :raises APIException: If the character does not exist or another error occurs.
-        :return: A single Character object.
+        :return: Serialized data of a single Character object.
         """
-        try:
-            return super().retrieve(request, *args, **kwargs)
-        except Character.DoesNotExist:
-            raise APIException("The requested character does not exist.")
-        except Exception as e:
-            raise APIException(
-                f"An error occurred while retrieving the character: {str(e)}"
-            )
+        obj = get_object_or_404(Character, pk=kwargs["pk"])
+        serializer = self.get_serializer(obj)
+        return Response(serializer.data)
+
+    def update(self, request, *args, **kwargs):
+        """
+        Update a character by ID.
+
+        :return: Updated Character object data.
+        """
+        obj = get_object_or_404(Character, pk=kwargs["pk"])
+        serializer = self.get_serializer(obj, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        """
+        Delete a character by ID.
+
+        :return: HTTP 204 status code upon successful deletion.
+        """
+        obj = get_object_or_404(Character, pk=kwargs["pk"])
+        obj.delete()
+        return Response(status=204)
 
     def create(self, request, *args, **kwargs):
         """
         Create a new character record.
 
         :raises ValidationError: If the input data is invalid.
-        :raises APIException: If another error occurs during creation.
+        :raises APIException: If an unexpected error occurs.
         :return: The created Character object.
         """
         try:
@@ -129,51 +122,44 @@ class FilmViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter]
     search_fields = ["title"]
 
-    def get_queryset(self):
-        """
-        Fetch all films with error handling.
-
-        :raises APIException: If an error occurs while fetching films.
-        :return: Queryset of Film objects.
-        :rtype: QuerySet
-        """
-        try:
-            return Film.objects.all()
-        except Exception as e:
-            raise APIException(f"An error occurred while fetching films: {str(e)}")
-
-    def list(self, request, *args, **kwargs):
-        """
-        List all films with pagination.
-
-        :raises APIException: If an error occurs while listing films.
-        :return: Paginated list of Film objects.
-        """
-        try:
-            return super().list(request, *args, **kwargs)
-        except Exception as e:
-            raise APIException(f"An error occurred while listing films: {str(e)}")
-
     def retrieve(self, request, *args, **kwargs):
         """
         Retrieve a single film by ID.
 
-        :raises APIException: If the film does not exist or another error occurs.
-        :return: A single Film object.
+        :return: Serialized data of a single Film object.
         """
-        try:
-            return super().retrieve(request, *args, **kwargs)
-        except Film.DoesNotExist:
-            raise APIException("The requested film does not exist.")
-        except Exception as e:
-            raise APIException(f"An error occurred while retrieving the film: {str(e)}")
+        obj = get_object_or_404(Film, pk=kwargs["pk"])
+        serializer = self.get_serializer(obj)
+        return Response(serializer.data)
+
+    def update(self, request, *args, **kwargs):
+        """
+        Update a film by ID.
+
+        :return: Updated Film object data.
+        """
+        obj = get_object_or_404(Film, pk=kwargs["pk"])
+        serializer = self.get_serializer(obj, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        """
+        Delete a film by ID.
+
+        :return: HTTP 204 status code upon successful deletion.
+        """
+        obj = get_object_or_404(Film, pk=kwargs["pk"])
+        obj.delete()
+        return Response(status=204)
 
     def create(self, request, *args, **kwargs):
         """
         Create a new film record.
 
         :raises ValidationError: If the input data is invalid.
-        :raises APIException: If another error occurs during creation.
+        :raises APIException: If an unexpected error occurs.
         :return: The created Film object.
         """
         try:
@@ -202,53 +188,44 @@ class StarshipViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter]
     search_fields = ["name"]
 
-    def get_queryset(self):
-        """
-        Fetch all starships with error handling.
-
-        :raises APIException: If an error occurs while fetching starships.
-        :return: Queryset of Starship objects.
-        :rtype: QuerySet
-        """
-        try:
-            return Starship.objects.all()
-        except Exception as e:
-            raise APIException(f"An error occurred while fetching starships: {str(e)}")
-
-    def list(self, request, *args, **kwargs):
-        """
-        List all starships with pagination.
-
-        :raises APIException: If an error occurs while listing starships.
-        :return: Paginated list of Starship objects.
-        """
-        try:
-            return super().list(request, *args, **kwargs)
-        except Exception as e:
-            raise APIException(f"An error occurred while listing starships: {str(e)}")
-
     def retrieve(self, request, *args, **kwargs):
         """
         Retrieve a single starship by ID.
 
-        :raises APIException: If the starship does not exist or another error occurs.
-        :return: A single Starship object.
+        :return: Serialized data of a single Starship object.
         """
-        try:
-            return super().retrieve(request, *args, **kwargs)
-        except Starship.DoesNotExist:
-            raise APIException("The requested starship does not exist.")
-        except Exception as e:
-            raise APIException(
-                f"An error occurred while retrieving the starship: {str(e)}"
-            )
+        obj = get_object_or_404(Starship, pk=kwargs["pk"])
+        serializer = self.get_serializer(obj)
+        return Response(serializer.data)
+
+    def update(self, request, *args, **kwargs):
+        """
+        Update a starship by ID.
+
+        :return: Updated Starship object data.
+        """
+        obj = get_object_or_404(Starship, pk=kwargs["pk"])
+        serializer = self.get_serializer(obj, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        """
+        Delete a starship by ID.
+
+        :return: HTTP 204 status code upon successful deletion.
+        """
+        obj = get_object_or_404(Starship, pk=kwargs["pk"])
+        obj.delete()
+        return Response(status=204)
 
     def create(self, request, *args, **kwargs):
         """
         Create a new starship record.
 
         :raises ValidationError: If the input data is invalid.
-        :raises APIException: If another error occurs during creation.
+        :raises APIException: If an unexpected error occurs.
         :return: The created Starship object.
         """
         try:
