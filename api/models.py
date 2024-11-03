@@ -2,11 +2,11 @@ from django.db import models
 
 
 class Film(models.Model):
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=500)
     episode_id = models.IntegerField(unique=True)
     opening_crawl = models.TextField()
-    director = models.CharField(max_length=255)
-    producer = models.CharField(max_length=255)
+    director = models.CharField(max_length=500)
+    producer = models.CharField(max_length=500)
     release_date = models.DateField()
 
     # This is a hybrid solution that creates table relationships
@@ -29,14 +29,14 @@ class Film(models.Model):
 
 
 class Character(models.Model):
-    name = models.CharField(max_length=255)
-    birth_year = models.CharField(max_length=10)
-    eye_color = models.CharField(max_length=20)
-    gender = models.CharField(max_length=10)
-    hair_color = models.CharField(max_length=20)
-    height = models.CharField(max_length=10)
-    mass = models.CharField(max_length=10)
-    skin_color = models.CharField(max_length=20)
+    name = models.CharField(max_length=500)
+    birth_year = models.CharField(max_length=20)
+    eye_color = models.CharField(max_length=50)
+    gender = models.CharField(max_length=50)
+    hair_color = models.CharField(max_length=50)
+    height = models.CharField(max_length=20)
+    mass = models.CharField(max_length=20)
+    skin_color = models.CharField(max_length=50)
     homeworld = models.URLField()
 
     # JSON fields to store lists of URLs
@@ -56,19 +56,19 @@ class Character(models.Model):
 
 
 class Starship(models.Model):
-    name = models.CharField(max_length=255)
-    model = models.CharField(max_length=255)
-    manufacturer = models.CharField(max_length=255)
-    cost_in_credits = models.CharField(max_length=20, null=True, blank=True)
-    length = models.CharField(max_length=20)
-    max_atmosphering_speed = models.CharField(max_length=20)
-    crew = models.CharField(max_length=10)
-    passengers = models.CharField(max_length=10)
-    cargo_capacity = models.CharField(max_length=20)
-    consumables = models.CharField(max_length=50)
-    hyperdrive_rating = models.CharField(max_length=10)
-    MGLT = models.CharField(max_length=10)
-    starship_class = models.CharField(max_length=50)
+    name = models.CharField(max_length=500)
+    model = models.CharField(max_length=500)
+    manufacturer = models.CharField(max_length=500)
+    cost_in_credits = models.CharField(max_length=50, null=True, blank=True)
+    length = models.CharField(max_length=50)
+    max_atmosphering_speed = models.CharField(max_length=50)
+    crew = models.CharField(max_length=20)
+    passengers = models.CharField(max_length=20)
+    cargo_capacity = models.CharField(max_length=50)
+    consumables = models.CharField(max_length=100)
+    hyperdrive_rating = models.CharField(max_length=50)
+    MGLT = models.CharField(max_length=50)
+    starship_class = models.CharField(max_length=100)
 
     # This is a hybrid solution that creates table relationships
     # While keeping the JSON fields in irrelevant fields.
