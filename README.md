@@ -50,7 +50,7 @@ You have two main options for setting up a local environment: using a virtual en
 1. Create a Conda environment:
 
    ```bash
-   conda create --name force-api python=3.8
+   conda create --name force-api python=3.12
    conda activate force-api
    ```
 
@@ -77,7 +77,7 @@ In a production environment, Docker is recommended for consistency and easy depl
 2. Follow the setup steps above.
 3. Run the production configuration:
    ```bash
-   docker-compose -f docker-compose.prod.yml up --build
+   docker-compose up --build
    ```
 
 ## API Endpoints
