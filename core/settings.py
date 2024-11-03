@@ -14,8 +14,13 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 
+from core.log_config import LogConfig
+
 # Load environment variables from .env file
 load_dotenv()
+
+# Set up logging
+LogConfig.setup_logging()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
