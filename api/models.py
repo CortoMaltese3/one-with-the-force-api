@@ -27,6 +27,9 @@ class Film(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        ordering = ["title"]  # Set default ordering by title
+
 
 class Character(models.Model):
     name = models.CharField(max_length=500)
@@ -54,6 +57,9 @@ class Character(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ["name"]  # Set default ordering by name
+
 
 class Starship(models.Model):
     name = models.CharField(max_length=500)
@@ -80,3 +86,6 @@ class Starship(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ["name"]  # Set default ordering by name
