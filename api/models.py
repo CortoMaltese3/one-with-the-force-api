@@ -9,7 +9,6 @@ class Film(models.Model):
     producer = models.CharField(max_length=255)
     release_date = models.DateField()
 
-    # Direct relationships with Character and Starship models
     # This is a hybrid solution that creates table relationships
     # While keeping the JSON fields in irrelevant fields.
     characters = models.ManyToManyField("Character", related_name="films")
@@ -44,7 +43,6 @@ class Character(models.Model):
     species = models.JSONField()
     vehicles = models.JSONField()
 
-    # Direct relationships with Starship model
     # This is a hybrid solution that creates table relationships
     # While keeping the JSON fields in irrelevant fields.
     starships = models.ManyToManyField("Starship", related_name="piloted_by")
@@ -72,8 +70,9 @@ class Starship(models.Model):
     MGLT = models.CharField(max_length=10)
     starship_class = models.CharField(max_length=50)
 
-    # JSON field for list of pilot URLs (if additional external data required)
-    pilots = models.JSONField()
+    # This is a hybrid solution that creates table relationships
+    # While keeping the JSON fields in irrelevant fields.
+    pilots = models.ManyToManyField("Character", related_name="piloting_starships")
 
     created = models.DateTimeField()
     edited = models.DateTimeField()
