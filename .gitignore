@@ -7,3 +7,6 @@
 # Testing
 .coverage
 .pytest_cache
+
+# Docs
+docs/build/
