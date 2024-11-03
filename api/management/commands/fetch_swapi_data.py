@@ -36,7 +36,7 @@ def fetch_all_from_url(url, limit=None):
                 results = results[: limit - count]
             data.extend(results)
             count += len(results)
-            url = page_data.get("next") if count < limit else None
+            url = page_data.get("next") if (limit is None or count < limit) else None
         except RequestException as e:
             print(f"Error fetching data from {url}: {e}")
             break
