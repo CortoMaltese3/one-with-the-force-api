@@ -1,6 +1,6 @@
 import requests
 
-from api.models import Character
+from api.models import Character, Film, Starship
 
 BASE_URL = "https://swapi.dev/api/"
 
@@ -53,5 +53,34 @@ def fetch_and_save_films():
                     "created": film_data["created"],
                     "edited": film_data["edited"],
                     "url": film_data["url"],
+                },
+            )
+
+
+def fetch_and_save_starships():
+    """Fetches starship data from SWAPI and saves it to the Starship model."""
+    response = requests.get(f"{BASE_URL}starships/")
+    if response.status_code == 200:
+        data = response.json()
+        for starship_data in data["results"]:
+            starship, created = Starship.objects.update_or_create(
+                name=starship_data["name"],
+                defaults={
+                    "model": starship_data["model"],
+                    "manufacturer": starship_data["manufacturer"],
+                    "cost_in_credits": starship_data["cost_in_credits"],
+                    "length": starship_data["length"],
+                    "max_atmosphering_speed": starship_data["max_atmosphering_speed"],
+                    "crew": starship_data["crew"],
+                    "passengers": starship_data["passengers"],
+                    "cargo_capacity": starship_data["cargo_capacity"],
+                    "consumables": starship_data["consumables"],
+                    "hyperdrive_rating": starship_data["hyperdrive_rating"],
+                    "MGLT": starship_data["MGLT"],
+                    "starship_class": starship_data["starship_class"],
+                    "pilots": starship_data["pilots"],
+                    "created": starship_data["created"],
+                    "edited": starship_data["edited"],
+                    "url": starship_data["url"],
                 },
             )
