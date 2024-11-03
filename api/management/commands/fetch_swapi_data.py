@@ -4,6 +4,9 @@ from requests.exceptions import RequestException
 from django.db.utils import IntegrityError
 
 from api.models import Character, Film, Starship
+import logging
+
+logger = logging.getLogger(__name__)
 
 BASE_URL = "https://swapi.dev/api/"
 
@@ -17,7 +20,9 @@ def fetch_related_model(model, url_list):
             if obj:
                 objects.append(obj)
         except Exception as e:
-            print(f"Error fetching related model {model.__name__} for URL {url}: {e}")
+            logger.error(
+                f"Error fetching related model {model.__name__} for URL {url}: {e}"
+            )
     return objects
 
 
@@ -38,10 +43,10 @@ def fetch_all_from_url(url, limit=None):
             count += len(results)
             url = page_data.get("next") if (limit is None or count < limit) else None
         except RequestException as e:
-            print(f"Error fetching data from {url}: {e}")
+            logger.error(f"Error fetching data from {url}: {e}")
             break
         except ValueError as e:
-            print(f"Error parsing JSON response from {url}: {e}")
+            logger.error(f"Error parsing JSON response from {url}: {e}")
             break
     return data
 
@@ -69,7 +74,7 @@ def fetch_characters(limit=None):
                 },
             )
         except IntegrityError as e:
-            print(f"Error saving character '{character_data['name']}': {e}")
+            logger.error(f"Error saving character '{character_data['name']}': {e}")
 
 
 def fetch_films(limit=None):
@@ -97,7 +102,7 @@ def fetch_films(limit=None):
             film.characters.set(characters)
             film.starships.set(starships)
         except IntegrityError as e:
-            print(f"Error saving film '{film_data['title']}': {e}")
+            logger.error(f"Error saving film '{film_data['title']}': {e}")
 
 
 def fetch_starships(limit=None):
@@ -127,7 +132,7 @@ def fetch_starships(limit=None):
             pilots = fetch_related_model(Character, starship_data.get("pilots", []))
             starship.pilots.set(pilots)
         except IntegrityError as e:
-            print(f"Error saving starship '{starship_data['name']}': {e}")
+            logger.error(f"Error saving starship '{starship_data['name']}': {e}")
 
 
 class Command(BaseCommand):
