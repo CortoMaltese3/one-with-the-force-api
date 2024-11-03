@@ -1,0 +1,33 @@
+============================================================================================================================================ test session starts ============================================================================================================================================
+platform linux -- Python 3.12.7, pytest-8.3.3, pluggy-1.5.0
+django: version: 4.2.16, settings: core.settings (from ini)
+rootdir: /app
+configfile: pytest.ini
+plugins: django-4.9.0, cov-6.0.0
+collected 15 items                                                                                                                                                                                                                                                                                          
+
+api/tests/test_models.py ...                                                                                                                                                                                                                                                                          [ 20%]
+api/tests/test_views.py ............                                                                                                                                                                                                                                                                  [100%]
+
+---------- coverage: platform linux, python 3.12.7-final-0 -----------
+Name                                                                                   Stmts   Miss  Cover   Missing
+--------------------------------------------------------------------------------------------------------------------
+api/__init__.py                                                                            0      0   100%
+api/admin.py                                                                              17      0   100%
+api/apps.py                                                                                4      0   100%
+api/migrations/0001_initial.py                                                             5      0   100%
+api/migrations/0002_remove_starship_pilots_starship_pilots.py                              4      0   100%
+api/migrations/0003_alter_character_birth_year_alter_character_eye_color_and_more.py       4      0   100%
+api/migrations/__init__.py                                                                 0      0   100%
+api/models.py                                                                             62      0   100%
+api/serializers.py                                                                        14      0   100%
+api/tests/__init__.py                                                                      0      0   100%
+api/tests/test_models.py                                                                  17      0   100%
+api/tests/test_views.py                                                                   70      0   100%
+api/urls.py                                                                                8      0   100%
+api/views.py                                                                              92     36    61%   64-65, 73-77, 85-87, 101-102, 132-133, 141-145, 153-155, 169-170, 198-199, 207-211, 219-221, 235-236
+--------------------------------------------------------------------------------------------------------------------
+TOTAL                                                                                    297     36    88%
+
+
+============================================================================================================================================ 15 passed in 3.48s =============================================================================================================================================
