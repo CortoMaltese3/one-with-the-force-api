@@ -89,8 +89,7 @@ CELERY_BROKER_URL = "redis://redis:6379/0"
 CELERY_BEAT_SCHEDULE = {
     "fetch-swapi-data-every-day": {
         "task": "api.tasks.fetch_swapi_data_periodically",
-        "schedule": 60,  # every 24 hours
-        # "schedule": 86400,  # every 24 hours
+        "schedule": 86400,  # every 24 hours
     },
 }
 
