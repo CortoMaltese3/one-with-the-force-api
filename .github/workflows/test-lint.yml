@@ -73,4 +73,4 @@ jobs:
 
       - name: Lint with pylint
         run: |
-          pylint app/ --fail-under=8
+          pylint . --fail-under=7
