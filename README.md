@@ -59,6 +59,13 @@ You have two main options for setting up a local environment: using a virtual en
    pip install -r requirements.txt
    ```
 
+### Environment Setup
+
+Before running the application, ensure you have a `.env` file in the root directory. This file is essential for configuring database settings, secret keys, and other environment-specific variables.
+
+1. **Create a `.env` file** in the project root.
+2. **Refer to the `env.template` file** for a list of required environment variables. Copy the structure from `env.template` and populate it with your own values.
+
 ### Docker Setup (Alternative)
 
 The application can be run in a Dockerized environment with Docker Compose.
